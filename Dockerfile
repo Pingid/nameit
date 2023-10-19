@@ -32,6 +32,7 @@ RUN eval "$(fnm env --use-on-cd)" && \
     npm install
 
 # Build the app
+# ENV LEPTOS_BIN_TARGET_TRIPLE="wasm-unknown-unknown"
 RUN cargo leptos build --release -vv
 
 # Compress assets

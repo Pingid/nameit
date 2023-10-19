@@ -11,6 +11,12 @@ cfg_if! {
             routing::{get, post},
             Router,
         };
+        // use tower_http::{
+        //     decompression::DecompressionLayer,
+        //     set_header::SetRequestHeaderLayer,
+        //     trace::TraceLayer,
+        //     classify::StatusInRangeAsFailures,
+        // };
         // use leptos::*;
         use leptos::{provide_context, get_configuration, LeptosOptions};
         use leptos_axum::{generate_route_list, handle_server_fns_with_context, LeptosRoutes};
@@ -52,7 +58,7 @@ cfg_if! {
 
         #[tokio::main]
         async fn main() {
-            simple_logger::init_with_level(log::Level::Debug).expect("couldn't initialize logging");
+            simple_logger::init_with_level(log::Level::Info).expect("couldn't initialize logging");
 
 
             // Setting get_configuration(None) means we'll be using cargo-leptos's env values

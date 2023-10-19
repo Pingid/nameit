@@ -21,11 +21,11 @@ pub fn Badge<L: Fn() -> bool + 'static, A: Fn() -> bool + 'static>(
     view! {
         <div class="rounded-full px-2 py-1 border flex items-center gap-1">
             <p class="text-sm flex items-center gap-1">
-                <span class={format!("w-6 h-6 relative top-[1px] {}", icon)} />
+                <span class=format!("w-6 h-6 relative top-[1px] {}", icon)></span>
                 <span>{label}</span>
             </p>
             <div class="w-6 h-6 flex">
-                <span class={status} />
+                <span class=status></span>
             </div>
         </div>
     }

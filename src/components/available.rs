@@ -43,10 +43,22 @@ pub async fn check_available(source: Sources, title: String) -> Result<bool, Ser
 
     match source {
         Sources::PackageNpm => {
-            cached_page_exists(format!("https://www.npmjs.com/package/{}", title)).await
+            cached_page_exists(format!(
+                "https://www.npmjs.com/package/{}",
+                title.to_lowercase()
+            ))
+            .await
         }
-        Sources::OrgNpm => cached_page_exists(format!("https://www.npmjs.com/org/{}", title)).await,
-        Sources::Github => cached_page_exists(format!("https://github.com/{}", title)).await,
+        Sources::OrgNpm => {
+            cached_page_exists(format!(
+                "https://www.npmjs.com/org/{}",
+                title.to_lowercase()
+            ))
+            .await
+        }
+        Sources::Github => {
+            cached_page_exists(format!("https://github.com/{}", title.to_lowercase())).await
+        }
     }
 }
 
@@ -96,15 +108,19 @@ pub fn Available(source: Sources, query: Memo<String>) -> impl IntoView {
     };
 
     view! {
-        <Suspense fallback=move || view! { <Badge
-            icon={match_source().0}
-            label={match_source().1}
-            loading=once.loading()
-            available=move || false
-        /> }>
+        <Suspense fallback=move || {
+            view! {
+                <Badge
+                    icon=match_source().0
+                    label=match_source().1
+                    loading=once.loading()
+                    available=move || false
+                />
+            }
+        }>
             <Badge
-                icon={match_source().0}
-                label={match_source().1}
+                icon=match_source().0
+                label=match_source().1
                 loading=once.loading()
                 available=available
             />

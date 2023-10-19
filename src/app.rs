@@ -1,4 +1,4 @@
-use crate::components::{AppError, ErrorTemplate, QueryInput};
+use crate::components::{AppError, ErrorTemplate, Names, QueryInput};
 use leptos::*;
 use leptos_meta::*;
 use leptos_query::*;
@@ -17,10 +17,7 @@ pub fn App() -> impl IntoView {
         <Router fallback=|| {
             let mut outside_errors = Errors::default();
             outside_errors.insert_with_default_key(AppError::NotFound);
-            view! {
-                <ErrorTemplate outside_errors/>
-            }
-            .into_view()
+            view! { <ErrorTemplate outside_errors/> }.into_view()
         }>
             <main>
                 <Routes>
@@ -34,9 +31,12 @@ pub fn App() -> impl IntoView {
 /// Landing page
 #[component]
 fn Landing() -> impl IntoView {
+    let (query_value, set_query_value) = create_query_signal::<String>("q");
+
     view! {
-        <div class="w-full h-screen flex items-center justify-center">
-           <QueryInput />
+        <div class="">
+            <QueryInput query_value set_query_value/>
+            <Names set_query_value/>
         </div>
     }
 }

@@ -16,6 +16,7 @@ pub struct Cached<T> {
 #[derive(Debug, Clone)]
 pub enum CacheData {
     Exists(Cached<bool>), // I used String here as a placeholder for your cached data type
+    Html(String),
     Expired,
     // NotFound
 }

@@ -29,8 +29,13 @@ tower-http = { version = "0.4", features = ["fs"], optional = true }
 wasm-bindgen = "=0.2.87"
 thiserror = "1.0.38"
 tracing = { version = "0.1.37", optional = true }
+scraper = "0.17.1"
 http = "0.2.8"
 leptos_query = "0.3.0"
+# headless_chrome = { git = "https://github.com/atroche/rust-headless-chrome", features = [
+#     "fetch",
+# ] }
+
 
 [features]
 hydrate = [
@@ -110,6 +115,12 @@ bin-features = ["ssr"]
 #
 # Optional. Defaults to false.
 bin-default-features = false
+
+# The target triple to use when compiling the bin target
+#
+# Optional. Env: LEPTOS_BIN_TARGET_TRIPLE
+# bin-target-triple = "aarch64-apple-darwin"
+
 
 # The features to use when compiling the lib target
 #
