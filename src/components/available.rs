@@ -91,8 +91,8 @@ pub fn Available(source: Sources, query: Memo<String>) -> impl IntoView {
     });
 
     let available = move || match once.get() {
-        Some(Ok(v)) => v,
-        _ => false,
+        Some(Ok(v)) => Some(v),
+        _ => None,
     };
 
     let match_source = move || match source {
@@ -114,7 +114,7 @@ pub fn Available(source: Sources, query: Memo<String>) -> impl IntoView {
                     icon=match_source().0
                     label=match_source().1
                     loading=once.loading()
-                    available=move || false
+                    available=move || None
                 />
             }
         }>

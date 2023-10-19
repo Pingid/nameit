@@ -2,7 +2,7 @@ use leptos::*;
 
 /// Renders the npm package availability
 #[component]
-pub fn Badge<L: Fn() -> bool + 'static, A: Fn() -> bool + 'static>(
+pub fn Badge<L: Fn() -> bool + 'static, A: Fn() -> Option<bool> + 'static>(
     icon: String,
     loading: L,
     available: A,
@@ -12,8 +12,9 @@ pub fn Badge<L: Fn() -> bool + 'static, A: Fn() -> bool + 'static>(
         match loading() {
         true => "icon-[svg-spinners--270-ring-with-bg] w-5 h-5 relative top-[2px] left-[2px] text-black/70",
         false => match available() {
-            true => "icon-[heroicons--check-circle] w-6 h-6 text-green-800",
-            false => "icon-[heroicons--x-circle] w-6 h-6 text-red-800",
+            Some(true) => "icon-[heroicons--check-circle] w-6 h-6 text-green-800",
+            Some(false) => "icon-[heroicons--x-circle] w-6 h-6 text-red-800",
+            None => "icon-[heroicons--x-circle] w-6 h-6 text-black/10"
         },
     }
     });
