@@ -31,13 +31,16 @@ pub async fn check_available(source: Sources, title: String) -> Result<bool, Ser
 
     async fn cached_page_exists(url: String) -> Result<bool, ServerFnError> {
         let cache = use_context::<AppCache>().expect("Missing context provider");
-        if let Some(value) = cache.get_exists(url.clone()) {
-            return Ok(value);
+        match cache.get_exists(url.clone()) {
+            Some(true) => return Ok(true),
+            Some(false) => return Ok(false),
+            _ => (),
         }
-        let result = page_exists(url.clone()).await;
-        cache.set_exists(url);
-        result
+        let result = page_exists(url.clone()).await?;
+        cache.set_exists(url, result.clone());
+        Ok(result)
     }
+
     match source {
         Sources::PackageNpm => {
             cached_page_exists(format!("https://www.npmjs.com/package/{}", title)).await

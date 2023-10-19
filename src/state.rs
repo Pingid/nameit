@@ -42,34 +42,29 @@ impl AppCache {
     }
 
     pub fn get_exists(&self, key: String) -> Option<bool> {
-        match self.get_value(key.clone()) {
-            Some(CacheData::Exists(Cached {
-                value: true,
-                duration,
-                cached_at,
-            })) => {
-                if cached_at.elapsed() > duration {
+        let value = self.get_value(key.clone())?;
+        match value {
+            CacheData::Exists(cached) => {
+                if cached.cached_at.elapsed() > cached.duration {
                     self.set_value(key, CacheData::Expired);
                     return None;
                 }
-                Some(true)
+                Some(cached.value.clone())
             }
             _ => None,
         }
     }
 
-    pub fn set_exists(&self, key: String) -> Option<()> {
-        match self.set_value(
+    pub fn set_exists(&self, key: String, exists: bool) -> Option<()> {
+        self.set_value(
             key,
             CacheData::Exists(Cached {
-                value: true,
+                value: exists,
                 duration: Duration::from_secs(86_400),
                 cached_at: Instant::now(),
             }),
-        ) {
-            Some(_) => Some(()),
-            _ => None,
-        }
+        )?;
+        Some(())
     }
 }
 
